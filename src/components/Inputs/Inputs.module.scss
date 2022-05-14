@@ -1,0 +1,111 @@
+@import '../../scss/variables';
+@import '../../scss/mixins';
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+.inputs {
+  width: 100%;
+  height: 100%;
+  @include flexbox(space-between);
+  flex-direction: column;
+  input,
+  button {
+    font-family: 'Space Mono';
+    border-radius: 5px;
+    border: none;
+    height: 48px;
+    width: 100%;
+  }
+  input {
+    cursor: pointer;
+    font-size: 24px;
+    color: var(--very-dark-cyan);
+    background-color: var(--very-light-grayish-cyan);
+    text-align: end;
+    position: relative;
+    padding-right: 1rem;
+    outline: none;
+    caret-color: var(--color-primary);
+    transition: all 0.3s;
+    &::placeholder {
+      color: var(--grayish-cyan);
+    }
+    &:hover {
+      box-shadow: 0 0 0 2px var(--color-primary);
+    }
+    &:out-of-range {
+      box-shadow: 0 0 0 2px red;
+    }
+    // &:out-of-range ~ p {
+    //   color: red;
+    // }
+    input:out-of-range + label::after {
+      content: 'out of range!';
+    }
+  }
+  .input-error {
+    box-shadow: 0 0 0 2px red;
+    &:hover {
+      box-shadow: 0 0 0 2px red;
+    }
+  }
+
+  button {
+    background-color: var(--very-dark-cyan);
+    color: var(--white);
+    font-weight: 700;
+    font-size: 24px;
+    transition: all 0.3s;
+    &:hover {
+      background-color: var(--color-primary-shade-1);
+      color: var(--very-dark-cyan);
+    }
+  }
+  .selected {
+    background-color: var(--color-primary);
+    color: var(--very-dark-cyan);
+  }
+
+  .block {
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    @include flexbox(null, flex-start);
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+    img {
+      position: absolute;
+      bottom: 32px;
+      left: 32px;
+    }
+  }
+  .title {
+    color: var(--dark-grayish-cyan);
+    width: 100%;
+    @include flexbox(space-between);
+
+    p {
+      color: red;
+    }
+  }
+  .percentages__buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 1rem;
+    column-gap: 0.875rem;
+    padding: 10px 0;
+    input::placeholder {
+      @include flexbox;
+      width: 100%;
+      color: var(--dark-grayish-cyan);
+    }
+  }
+}

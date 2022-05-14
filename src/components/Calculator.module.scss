@@ -1,0 +1,27 @@
+@import '../scss/variables';
+@import '../scss/mixins';
+
+.calculator {
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--light-grayish-cyan);
+  display: flex;
+  @include flexbox;
+  flex-direction: column;
+  .main-title {
+    font-size: 26px;
+    color: var(--dark-grayish-cyan);
+    margin-bottom: 5.5rem;
+    letter-spacing: 10px;
+  }
+  .calc-window {
+    width: 920px;
+    height: 481px;
+    background-color: var(--white);
+    border-radius: 30px;
+    box-shadow: 0 30px 50px hsla(186, 14%, 43%, 0.374);
+    padding: 32px;
+    @include flexbox;
+    gap: 2rem;
+  }
+}
