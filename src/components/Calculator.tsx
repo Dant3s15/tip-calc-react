@@ -1,5 +1,5 @@
 import classes from './Calculator.module.scss';
-import Display from './display/display';
+import Display from './display/Display';
 import Inputs from './Inputs/Inputs';
 const Calculator = () => {
   return (
