@@ -40,21 +40,12 @@ input[type='number'] {
     &:hover {
       box-shadow: 0 0 0 2px var(--color-primary);
     }
-    &:out-of-range {
-      box-shadow: 0 0 0 2px red;
-    }
+    // &:out-of-range {
+    //   box-shadow: 0 0 0 2px red;
+    // }
     // &:out-of-range ~ p {
     //   color: red;
     // }
-    input:out-of-range + label::after {
-      content: 'out of range!';
-    }
-  }
-  .input-error {
-    box-shadow: 0 0 0 2px red;
-    &:hover {
-      box-shadow: 0 0 0 2px red;
-    }
   }
 
   button {
@@ -69,8 +60,12 @@ input[type='number'] {
     }
   }
   .selected {
+    outline: none;
     background-color: var(--color-primary);
     color: var(--very-dark-cyan);
+  }
+  .selected-custom {
+    box-shadow: 0 0 0 2px var(--color-primary);
   }
 
   .block {
@@ -106,6 +101,23 @@ input[type='number'] {
       @include flexbox;
       width: 100%;
       color: var(--dark-grayish-cyan);
+    }
+  }
+  .input-error {
+    position: relative;
+    & + input {
+      box-shadow: 0 0 0 2px red;
+      &:hover {
+        box-shadow: 0 0 0 2px red;
+      }
+    }
+    &::after {
+      content: "Can't be zero";
+      width: 100%;
+      height: 100%;
+      text-align: right;
+      color: red;
+      position: absolute;
     }
   }
 }
