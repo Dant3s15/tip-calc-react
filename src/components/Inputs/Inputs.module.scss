@@ -40,12 +40,6 @@ input[type='number'] {
     &:hover {
       box-shadow: 0 0 0 2px var(--color-primary);
     }
-    // &:out-of-range {
-    //   box-shadow: 0 0 0 2px red;
-    // }
-    // &:out-of-range ~ p {
-    //   color: red;
-    // }
   }
 
   button {
@@ -80,6 +74,12 @@ input[type='number'] {
       position: absolute;
       bottom: 32px;
       left: 32px;
+      @media (max-width: 940px) {
+        bottom: 36px;
+      }
+    }
+    @media (max-width: 940px) {
+      padding-top: 12px;
     }
   }
   .title {
@@ -102,6 +102,9 @@ input[type='number'] {
       width: 100%;
       color: var(--dark-grayish-cyan);
     }
+    @media (max-width: 700px) {
+      grid-template-columns: 1fr 1fr;
+    }
   }
   .input-error {
     position: relative;
@@ -119,5 +122,8 @@ input[type='number'] {
       color: red;
       position: absolute;
     }
+  }
+  @media (max-width: 940px) {
+    padding: 0 6px;
   }
 }
