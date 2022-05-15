@@ -13,8 +13,7 @@ body {
 .attribution {
   @include flexbox;
   background-color: var(--light-grayish-cyan);
+  @media (max-width: 940px) {
+    font-size: 10px;
+  }
 }
-
-// #root {
-//   height: 100vh;
-// }
