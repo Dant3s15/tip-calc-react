@@ -9,6 +9,7 @@
   padding: 40px;
   @include flexbox(space-between);
   flex-direction: column;
+  gap: 20px;
   .results {
     width: 100%;
     @include flexbox;
@@ -68,7 +69,6 @@
     }
   }
   @media (max-width: 940px) {
-    // height: 36%;
     padding: 24px;
     padding-top: 30px;
   }

@@ -22,6 +22,10 @@ input[type='number'] {
     border: none;
     height: 48px;
     width: 100%;
+    @media (max-width: 940px) {
+      height: 44px;
+      font-size: 22px;
+    }
   }
   input {
     cursor: pointer;
@@ -75,11 +79,12 @@ input[type='number'] {
       bottom: 32px;
       left: 32px;
       @media (max-width: 940px) {
-        bottom: 36px;
+        bottom: 26px;
       }
     }
     @media (max-width: 940px) {
       padding-top: 12px;
+      padding-bottom: 12px;
     }
   }
   .title {
