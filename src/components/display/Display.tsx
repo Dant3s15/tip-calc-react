@@ -82,7 +82,7 @@ const Display: FC<Props> = props => {
           props.data.isButtonActive ? classes.active : ''
         }`}
       >
-        <p>RESET</p>
+        RESET
       </button>
     </div>
   );

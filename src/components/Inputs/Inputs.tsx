@@ -124,7 +124,7 @@ const Inputs: FC<Props> = props => {
           id='bill'
           placeholder='0'
         />
-        <img src={dollarIco}></img>
+        <img src={dollarIco} alt='dollar sign'></img>
       </div>
       <div className={classes.block}>
         <p className={classes.title}>Select Tip %</p>
@@ -208,7 +208,7 @@ const Inputs: FC<Props> = props => {
           id='people'
           placeholder='0'
         />
-        <img src={personIco}></img>
+        <img src={personIco} alt='person icon'></img>
       </div>
     </div>
   );
