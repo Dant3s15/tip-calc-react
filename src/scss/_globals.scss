@@ -10,6 +10,10 @@ body {
   font-family: 'Space Mono', monospace;
   font-weight: 700;
 }
+.attribution {
+  @include flexbox;
+  background-color: var(--light-grayish-cyan);
+}
 
 // #root {
 //   height: 100vh;

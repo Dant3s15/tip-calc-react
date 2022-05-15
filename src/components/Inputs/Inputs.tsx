@@ -1,31 +1,39 @@
 import personIco from '../../images/icon-person.svg';
 import dollarIco from '../../images/icon-dollar.svg';
 import classes from './Inputs.module.scss';
-import { useRef, FC, MutableRefObject, useState } from 'react';
+import { useRef, FC, MutableRefObject, useState, useEffect } from 'react';
 
 interface Props {
   data: {
-    billValue: number;
-    customValue: number;
-    peopleValue: number;
-    selectedPercent: number;
+    billValue: number | null;
+    customValue: number | null;
+    peopleValue: number | null;
+    selectedPercent: number | null;
     isSelected: boolean;
     setIsSelected: React.Dispatch<React.SetStateAction<boolean>>;
     setters: [
-      setBillValue: React.Dispatch<React.SetStateAction<number>>,
-      setCustomValue: React.Dispatch<React.SetStateAction<number>>,
-      setPeopleValue: React.Dispatch<React.SetStateAction<number>>,
-      setSelectedPercent: React.Dispatch<React.SetStateAction<number>>
+      setBillValue: React.Dispatch<React.SetStateAction<number | null>>,
+      setCustomValue: React.Dispatch<React.SetStateAction<number | null>>,
+      setPeopleValue: React.Dispatch<React.SetStateAction<number | null>>,
+      setSelectedPercent: React.Dispatch<React.SetStateAction<number | null>>
     ];
+    getInputsRefs: Function;
+    getButtonRefs: Function;
+    getCustomRef: Function;
+    setIsButtonActive: Function;
+    errorState: {
+      billHasError: boolean;
+      peopleHasError: boolean;
+      setBillHasError: React.Dispatch<React.SetStateAction<boolean>>;
+      setPeopleHasError: React.Dispatch<React.SetStateAction<boolean>>;
+    };
   };
 }
 
 const Inputs: FC<Props> = props => {
   const [isBillTouched, setIsBillTouched] = useState(false);
-  const [billHasError, setBillHasError] = useState(false);
 
   const [isPeopleTouched, setIsPeopleTouched] = useState(false);
-  const [peopleHasError, setPeopleHasError] = useState(false);
 
   const billRef = useRef<any>();
   const customRef = useRef<any>();
@@ -44,25 +52,30 @@ const Inputs: FC<Props> = props => {
     percent25Ref,
     percent50Ref,
   ];
+  useEffect(() => {
+    props.data.getInputsRefs([billRef, customRef, peopleRef]);
+    props.data.getButtonRefs(propsArr, classes.selected);
+    props.data.getCustomRef(customRef, classes['selected-custom']);
+  }, []);
 
   const changeHandler = (ref: MutableRefObject<any>, setterNmb: number) => {
+    props.data.setIsButtonActive(true);
     const curVal = +ref?.current.value;
     props.data.setters[setterNmb](curVal);
-    console.log(curVal);
 
     if (ref === billRef) {
       if (curVal === 0) {
-        setBillHasError(true);
+        props.data.errorState.setBillHasError(true);
       } else {
-        setBillHasError(false);
+        props.data.errorState.setBillHasError(false);
       }
       setIsBillTouched(true);
     }
     if (ref === peopleRef) {
       if (curVal === 0) {
-        setPeopleHasError(true);
+        props.data.errorState.setPeopleHasError(true);
       } else {
-        setPeopleHasError(false);
+        props.data.errorState.setPeopleHasError(false);
       }
       setIsPeopleTouched(true);
     }
@@ -76,6 +89,7 @@ const Inputs: FC<Props> = props => {
   };
 
   const selectionHandler = (ref: MutableRefObject<any>) => {
+    props.data.setIsButtonActive(true);
     props.data.setIsSelected(true);
     propsArr.forEach(ref => {
       ref.current.classList.remove(classes.selected);
@@ -91,7 +105,9 @@ const Inputs: FC<Props> = props => {
       <div className={classes.block}>
         <label
           className={`${classes.title} ${
-            isBillTouched && billHasError ? classes['input-error'] : ''
+            isBillTouched && props.data.errorState.billHasError
+              ? classes['input-error']
+              : ''
           }`}
           htmlFor='bill'
         >
@@ -173,7 +189,9 @@ const Inputs: FC<Props> = props => {
       <div className={classes.block}>
         <label
           className={`${classes.title} ${
-            isPeopleTouched && peopleHasError ? classes['input-error'] : ''
+            isPeopleTouched && props.data.errorState.peopleHasError
+              ? classes['input-error']
+              : ''
           }`}
           htmlFor='people'
         >

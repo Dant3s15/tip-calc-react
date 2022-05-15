@@ -1,20 +1,30 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import classes from './Display.module.scss';
 
 interface Props {
   data: {
     values: {
-      billValue: number;
-      customValue: number;
-      peopleValue: number;
-      selectedPercent: number;
+      billValue: number | null;
+      customValue: number | null;
+      peopleValue: number | null;
+      selectedPercent: number | null;
     };
+    isButtonActive: boolean;
+    reset: () => void;
   };
 }
 
 const Display: FC<Props> = props => {
+  const resetBtnRef = useRef<any>(null);
+
+  useEffect(() => {}, []);
+
   const amountPerPerson = () => {
-    if (props.data.values.peopleValue) {
+    if (
+      props.data.values.peopleValue &&
+      props.data.values.billValue &&
+      props.data.values.selectedPercent
+    ) {
       return (
         Math.floor(
           (props.data.values.billValue / props.data.values.peopleValue) *
@@ -25,11 +35,11 @@ const Display: FC<Props> = props => {
     } else return (0).toFixed(2);
   };
   const amountTotal = () => {
-    console.log(
-      props.data.values.billValue / props.data.values.peopleValue +
-        +amountPerPerson()
-    );
-    if (props.data.values.peopleValue) {
+    if (
+      props.data.values.peopleValue &&
+      props.data.values.billValue &&
+      props.data.values.selectedPercent
+    ) {
       return (
         props.data.values.billValue / props.data.values.peopleValue +
         Math.round(
@@ -40,6 +50,11 @@ const Display: FC<Props> = props => {
           100
       ).toFixed(2);
     } else return (0).toFixed(2);
+  };
+  const resetHandler = () => {
+    props.data.reset();
+
+    // resetBtnRef.current.classList.remove(classes.active);
   };
 
   return (
@@ -60,7 +75,13 @@ const Display: FC<Props> = props => {
           <p className={classes['amount__dollars']}>${amountTotal()}</p>
         </div>
       </div>
-      <button className={`${classes.reset} ${classes.active}`}>
+      <button
+        ref={resetBtnRef}
+        onClick={resetHandler}
+        className={`${classes.reset} ${
+          props.data.isButtonActive ? classes.active : ''
+        }`}
+      >
         <p>RESET</p>
       </button>
     </div>
