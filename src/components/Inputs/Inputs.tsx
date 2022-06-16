@@ -59,9 +59,6 @@ const Inputs: FC<Props> = props => {
     props.data.getButtonRefs(propsArr, classes.selected);
     props.data.getCustomRef(customRef, classes['selected-custom']);
   }, []);
-  function isWhole(n: string) {
-    return /^\d+$/.test(n);
-  }
 
   const changeHandler = (ref: MutableRefObject<any>, setterNmb: number) => {
     props.data.setIsButtonActive(true);
@@ -154,6 +151,9 @@ const Inputs: FC<Props> = props => {
           onChange={() => {
             changeHandler(billRef, 0);
           }}
+          onKeyDown={evt =>
+            ['e', 'E', '+', '-'].includes(evt.key) && evt.preventDefault()
+          }
           ref={billRef}
           min='0.01'
           max='9999'
@@ -217,6 +217,9 @@ const Inputs: FC<Props> = props => {
             onChange={() => {
               changeHandler(customRef, 3);
             }}
+            onKeyDown={evt =>
+              ['e', 'E', '+', '-'].includes(evt.key) && evt.preventDefault()
+            }
             type='number'
             name='custom'
             id='custom'
@@ -241,6 +244,9 @@ const Inputs: FC<Props> = props => {
           onChange={() => {
             changeHandler(peopleRef, 2);
           }}
+          onKeyDown={evt =>
+            ['e', 'E', '+', '-', '.'].includes(evt.key) && evt.preventDefault()
+          }
           min='1'
           type='number'
           name='people'
