@@ -2,6 +2,7 @@
 @import '../../scss/mixins';
 :root {
   --bill-error-content: "Can't be zero";
+  --people-error-content: "Can't be zero";
 }
 
 input::-webkit-outer-spin-button,
@@ -134,6 +135,11 @@ input[type='number'] {
   .input-error.bill-label {
     &::after {
       content: var(--bill-error-content);
+    }
+  }
+  .input-error.people-label {
+    &::after {
+      content: var(--people-error-content);
     }
   }
   @media (max-width: 940px) {

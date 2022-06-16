@@ -59,18 +59,22 @@ const Inputs: FC<Props> = props => {
     props.data.getButtonRefs(propsArr, classes.selected);
     props.data.getCustomRef(customRef, classes['selected-custom']);
   }, []);
+  function isWhole(n: string) {
+    return /^\d+$/.test(n);
+  }
 
   const changeHandler = (ref: MutableRefObject<any>, setterNmb: number) => {
     props.data.setIsButtonActive(true);
 
     if (ref === billRef) {
-      if (+ref?.current.value === 0) {
+      if (+ref?.current.value <= 0) {
         props.data.errorState.setBillHasError(true);
         document.documentElement.style.setProperty(
           '--bill-error-content',
           `"Can't be zero"`
         );
       } else if (+ref?.current.value > 9999) {
+        ref.current.value = 99999;
         document.documentElement.style.setProperty(
           '--bill-error-content',
           `"Can't be > 9999"`
@@ -82,11 +86,24 @@ const Inputs: FC<Props> = props => {
       setIsBillTouched(true);
     }
     if (ref === peopleRef) {
+      peopleRef.current.value = Math.trunc(+peopleRef.current.value);
       if (+ref?.current.value < 1) {
+        props.data.errorState.setPeopleHasError(true);
+        document.documentElement.style.setProperty(
+          '--people-error-content',
+          `"Can't be zero"`
+        );
+      } else if (+ref?.current.value > 9999) {
+        ref.current.value = 99999;
+        document.documentElement.style.setProperty(
+          '--people-error-content',
+          `"Can't be > 9999"`
+        );
         props.data.errorState.setPeopleHasError(true);
       } else {
         props.data.errorState.setPeopleHasError(false);
       }
+      // props.data.setters[2](+peopleRef.current.value);
       setIsPeopleTouched(true);
     }
     if (ref === customRef) {
@@ -98,6 +115,9 @@ const Inputs: FC<Props> = props => {
         customRef.current.value = 100;
 
         props.data.setters[3](100 / 100);
+      } else if (+customRef.current.value < 0) {
+        props.data.setters[3](0);
+        customRef.current.value = 0;
       } else {
         props.data.setters[3](+customRef.current.value / 100);
       }
@@ -211,7 +231,7 @@ const Inputs: FC<Props> = props => {
             isPeopleTouched && props.data.errorState.peopleHasError
               ? classes['input-error']
               : ''
-          }`}
+          } ${classes['people-label']}`}
           htmlFor='people'
         >
           Number of People
@@ -225,6 +245,7 @@ const Inputs: FC<Props> = props => {
           type='number'
           name='people'
           id='people'
+          step='1'
           placeholder='0'
         />
         <img src={personIco} alt='person icon'></img>

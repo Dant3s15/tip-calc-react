@@ -28,12 +28,16 @@ const Display: FC<Props> = props => {
       return '0.00';
     }
     if (values.peopleValue && values.billValue) {
-      return (
-        Math.floor(
-          (values.billValue / values.peopleValue) *
-            values?.selectedPercent! *
-            100
-        ) / 100
+      return Number(
+        (
+          Math.floor(
+            (values.billValue / values.peopleValue) *
+              values?.selectedPercent! *
+              100
+          ) / 100
+        )
+          .toString()
+          .match(/^-?\d+(?:\.\d{0,2})?/)
       ).toFixed(2);
     } else return (0).toFixed(2);
   };
@@ -42,14 +46,18 @@ const Display: FC<Props> = props => {
       return '0.00';
     }
     if (values.peopleValue && values.billValue) {
-      return (
-        values.billValue / values.peopleValue +
-        Math.round(
-          (values.billValue / values.peopleValue) *
-            values.selectedPercent! *
+      return Number(
+        (
+          values.billValue / values.peopleValue +
+          Math.round(
+            (values.billValue / values.peopleValue) *
+              values.selectedPercent! *
+              100
+          ) /
             100
-        ) /
-          100
+        )
+          .toString()
+          .match(/^-?\d+(?:\.\d{0,2})?/)
       ).toFixed(2);
     } else return (0).toFixed(2);
   };
