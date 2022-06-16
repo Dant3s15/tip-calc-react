@@ -25,7 +25,7 @@ const Display: FC<Props> = props => {
 
   const amountPerPerson = () => {
     if (errorState.billHasError || errorState.peopleHasError) {
-      return 0;
+      return '0.00';
     }
     if (values.peopleValue && values.billValue && values.selectedPercent) {
       return (
@@ -37,7 +37,7 @@ const Display: FC<Props> = props => {
   };
   const amountTotal = () => {
     if (errorState.billHasError || errorState.peopleHasError) {
-      return 0;
+      return '0.00';
     }
     if (values.peopleValue && values.billValue && values.selectedPercent) {
       return (

@@ -62,18 +62,15 @@ const Inputs: FC<Props> = props => {
 
   const changeHandler = (ref: MutableRefObject<any>, setterNmb: number) => {
     props.data.setIsButtonActive(true);
-    const curVal = +ref?.current.value;
-    props.data.setters[setterNmb](curVal);
 
     if (ref === billRef) {
-      if (curVal === 0) {
+      if (+ref?.current.value === 0) {
         props.data.errorState.setBillHasError(true);
         document.documentElement.style.setProperty(
           '--bill-error-content',
           `"Can't be zero"`
         );
-      } else if (curVal > 9999) {
-        ref.current.value = curVal;
+      } else if (+ref?.current.value > 9999) {
         document.documentElement.style.setProperty(
           '--bill-error-content',
           `"Can't be > 9999"`
@@ -85,9 +82,8 @@ const Inputs: FC<Props> = props => {
       setIsBillTouched(true);
     }
     if (ref === peopleRef) {
-      if (curVal < 1) {
+      if (+ref?.current.value < 1) {
         props.data.errorState.setPeopleHasError(true);
-        props.data.setters[3](0);
       } else {
         props.data.errorState.setPeopleHasError(false);
       }
@@ -106,6 +102,7 @@ const Inputs: FC<Props> = props => {
         props.data.setters[3](+customRef.current.value / 100);
       }
     }
+    props.data.setters[setterNmb](+ref?.current.value / 100);
   };
 
   const selectionHandler = (ref: MutableRefObject<any>) => {
