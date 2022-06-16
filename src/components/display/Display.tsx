@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useRef } from 'react';
 import classes from './Display.module.scss';
 
 interface Props {
@@ -11,41 +11,39 @@ interface Props {
     };
     isButtonActive: boolean;
     reset: () => void;
+    errorState: {
+      billHasError: boolean;
+      peopleHasError: boolean;
+    };
   };
 }
 
 const Display: FC<Props> = props => {
   const resetBtnRef = useRef<any>(null);
-
-  useEffect(() => {}, []);
+  const { data } = props;
+  const { errorState, values } = data;
 
   const amountPerPerson = () => {
-    if (
-      props.data.values.peopleValue &&
-      props.data.values.billValue &&
-      props.data.values.selectedPercent
-    ) {
+    if (errorState.billHasError || errorState.peopleHasError) {
+      return 0;
+    }
+    if (values.peopleValue && values.billValue && values.selectedPercent) {
       return (
         Math.floor(
-          (props.data.values.billValue / props.data.values.peopleValue) *
-            props.data.values.selectedPercent *
-            100
+          (values.billValue / values.peopleValue) * values.selectedPercent * 100
         ) / 100
       ).toFixed(2);
     } else return (0).toFixed(2);
   };
   const amountTotal = () => {
-    if (
-      props.data.values.peopleValue &&
-      props.data.values.billValue &&
-      props.data.values.selectedPercent
-    ) {
+    if (errorState.billHasError || errorState.peopleHasError) {
+      return 0;
+    }
+    if (values.peopleValue && values.billValue && values.selectedPercent) {
       return (
-        props.data.values.billValue / props.data.values.peopleValue +
+        values.billValue / values.peopleValue +
         Math.round(
-          (props.data.values.billValue / props.data.values.peopleValue) *
-            props.data.values.selectedPercent *
-            100
+          (values.billValue / values.peopleValue) * values.selectedPercent * 100
         ) /
           100
       ).toFixed(2);
@@ -53,8 +51,6 @@ const Display: FC<Props> = props => {
   };
   const resetHandler = () => {
     props.data.reset();
-
-    // resetBtnRef.current.classList.remove(classes.active);
   };
 
   return (

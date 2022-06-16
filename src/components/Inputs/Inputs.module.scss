@@ -1,5 +1,8 @@
 @import '../../scss/variables';
 @import '../../scss/mixins';
+:root {
+  --bill-error-content: "Can't be zero";
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -120,12 +123,17 @@ input[type='number'] {
       }
     }
     &::after {
-      content: "Can't be zero";
+      content: "Can't be < 1";
       width: 100%;
       height: 100%;
       text-align: right;
       color: red;
       position: absolute;
+    }
+  }
+  .input-error.bill-label {
+    &::after {
+      content: var(--bill-error-content);
     }
   }
   @media (max-width: 940px) {

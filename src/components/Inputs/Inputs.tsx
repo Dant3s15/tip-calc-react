@@ -5,10 +5,12 @@ import { useRef, FC, MutableRefObject, useState, useEffect } from 'react';
 
 interface Props {
   data: {
-    billValue: number | null;
-    customValue: number | null;
-    peopleValue: number | null;
-    selectedPercent: number | null;
+    values: {
+      billValue: number | null;
+      customValue: number | null;
+      peopleValue: number | null;
+      selectedPercent: number | null;
+    };
     isSelected: boolean;
     setIsSelected: React.Dispatch<React.SetStateAction<boolean>>;
     setters: [
@@ -66,25 +68,43 @@ const Inputs: FC<Props> = props => {
     if (ref === billRef) {
       if (curVal === 0) {
         props.data.errorState.setBillHasError(true);
+        document.documentElement.style.setProperty(
+          '--bill-error-content',
+          `"Can't be zero"`
+        );
+      } else if (curVal > 9999) {
+        ref.current.value = curVal;
+        document.documentElement.style.setProperty(
+          '--bill-error-content',
+          `"Can't be > 9999"`
+        );
+        props.data.errorState.setBillHasError(true);
       } else {
         props.data.errorState.setBillHasError(false);
       }
       setIsBillTouched(true);
     }
     if (ref === peopleRef) {
-      if (curVal === 0) {
+      if (curVal < 1) {
         props.data.errorState.setPeopleHasError(true);
+        props.data.setters[3](0);
       } else {
         props.data.errorState.setPeopleHasError(false);
       }
       setIsPeopleTouched(true);
     }
     if (ref === customRef) {
-      props.data.setters[3](+customRef.current.value / 100);
       customRef.current.classList.add(classes['selected-custom']);
       propsArr.forEach(ref => {
         ref.current.classList.remove(classes.selected);
       });
+      if (+customRef.current.value > 100) {
+        customRef.current.value = 100;
+
+        props.data.setters[3](100 / 100);
+      } else {
+        props.data.setters[3](+customRef.current.value / 100);
+      }
     }
   };
 
@@ -108,7 +128,7 @@ const Inputs: FC<Props> = props => {
             isBillTouched && props.data.errorState.billHasError
               ? classes['input-error']
               : ''
-          }`}
+          } ${classes['bill-label']}`}
           htmlFor='bill'
         >
           Bill
@@ -119,6 +139,7 @@ const Inputs: FC<Props> = props => {
           }}
           ref={billRef}
           min='0.01'
+          max='9999'
           type='number'
           name='bill'
           id='bill'
@@ -182,6 +203,7 @@ const Inputs: FC<Props> = props => {
             type='number'
             name='custom'
             id='custom'
+            max='100'
             placeholder='Custom'
           />
         </div>

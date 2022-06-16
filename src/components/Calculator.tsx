@@ -28,7 +28,6 @@ const Calculator = () => {
   };
   const getCustomRef = (ref: MutableRefObject<any>, classList: string) => {
     setCustomRefObj({ ref, classList });
-    // return arr;
   };
   const getButtonRefs = (arr: [], classList: any) => {
     setButtonRefs({ arr, classList });
@@ -62,10 +61,12 @@ const Calculator = () => {
       <div className={classes['calc-window']}>
         <Inputs
           data={{
-            billValue,
-            customValue,
-            peopleValue,
-            selectedPercent,
+            values: {
+              billValue,
+              customValue,
+              peopleValue,
+              selectedPercent,
+            },
             isSelected,
             setIsSelected,
             setters: [
@@ -93,6 +94,10 @@ const Calculator = () => {
               customValue,
               peopleValue,
               selectedPercent,
+            },
+            errorState: {
+              billHasError,
+              peopleHasError,
             },
             isButtonActive,
             reset,
