@@ -27,10 +27,12 @@ const Display: FC<Props> = props => {
     if (errorState.billHasError || errorState.peopleHasError) {
       return '0.00';
     }
-    if (values.peopleValue && values.billValue && values.selectedPercent) {
+    if (values.peopleValue && values.billValue) {
       return (
         Math.floor(
-          (values.billValue / values.peopleValue) * values.selectedPercent * 100
+          (values.billValue / values.peopleValue) *
+            values?.selectedPercent! *
+            100
         ) / 100
       ).toFixed(2);
     } else return (0).toFixed(2);
@@ -39,11 +41,13 @@ const Display: FC<Props> = props => {
     if (errorState.billHasError || errorState.peopleHasError) {
       return '0.00';
     }
-    if (values.peopleValue && values.billValue && values.selectedPercent) {
+    if (values.peopleValue && values.billValue) {
       return (
         values.billValue / values.peopleValue +
         Math.round(
-          (values.billValue / values.peopleValue) * values.selectedPercent * 100
+          (values.billValue / values.peopleValue) *
+            values.selectedPercent! *
+            100
         ) /
           100
       ).toFixed(2);
